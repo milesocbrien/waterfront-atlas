@@ -466,7 +466,11 @@ function buildPopup(p) {
     if (p.ownership_years) rows += `<div class="popup-row"><span class="popup-label">Owned</span><span class="popup-value">${p.ownership_years.toFixed(0)} years</span></div>`;
     if (p.last_sale_fmt) rows += `<div class="popup-row"><span class="popup-label">Last Sale</span><span class="popup-value">${p.last_sale_fmt}</span></div>`;
     if (p.tax_fmt) rows += `<div class="popup-row"><span class="popup-label">Annual Tax</span><span class="popup-value">${p.tax_fmt}</span></div>`;
-    rows += `<div class="popup-cta"><a href="mailto:rory@elmesgroup.com?subject=Inquiry: ${p.address}&body=Hi Rory, I'd like to know more about ${p.address}.">📧 Get a full report on this property</a></div>`;
+    if (p.on_market) {
+        const slug = (p.address + ', ' + p.city + ', FL').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        rows += `<div class="popup-cta"><a href="https://www.compass.com/listing/${slug}/" target="_blank">🏠 View Live Listing on Compass</a></div>`;
+    }
+    rows += `<div class="popup-cta" style="border-top:${p.on_market ? 'none' : '1px solid rgba(255,255,255,0.06)'};padding-top:${p.on_market ? '0' : '10px'};margin-top:${p.on_market ? '0' : '10px'}"><a href="mailto:rory@elmesgroup.com?subject=Inquiry: ${p.address}&body=Hi Rory, I'd like to know more about ${p.address}.">📧 Get a full report on this property</a></div>`;
     return `<div class="popup"><div class="popup-addr">${p.address}</div><div class="popup-hood">${p.neighborhood} · ${p.city}</div><div style="margin-bottom:8px;">${tags}</div>${rows}</div>`;
 }
 
